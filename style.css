@@ -122,3 +122,13 @@ svg {
   margin: 2rem 0;
   cursor: pointer;
 }
+
+/* Slider Stuff */
+input[type="range"] {
+  appearance: none;
+  margin: 1rem 0;
+  width: 100%;
+  position: relative;
+  border-radius: 1rem;
+  cursor: pointer;
+}
