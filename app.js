@@ -10,6 +10,12 @@
         slider.addEventListener('input', hslControls);
     });
 
+    colorDivs.forEach((div, index) => {
+        div.addEventListener('input', () => {
+            updateTextUI(index);
+        });
+    });
+
 //Functions
 
     //Color Generator
@@ -74,7 +80,7 @@
             //Update Input Colors
             saturation.style.backgroundImage = `linear-gradient(to right,${scaleSat(0)},${scaleSat(1)})`;
             brightness.style.backgroundImage = `linear-gradient(to right,${scaleBright(0)},${scaleBright(0.5)},${scaleBright(1)})`;
-            hue.style.backgroundImage = `linear-gradient(to right,rgb(204,75,75),rgb(204,204,75),rgb(75,204,75),rgb(75,204,204),rgb(75,75,204),rgb(204,75,204),rgb(204,75,75))`;
+            hue.style.backgroundImage = `linear-gradient(to right, rgb(204,75,75),rgb(204,204,75),rgb(75,204,75),rgb(75,204,204),rgb(75,75,204),rgb(204,75,204),rgb(204,75,75))`;
 
         }
         
@@ -97,6 +103,21 @@
                 .set('hsl.h', hue.value);
             
             colorDivs[index].style.backgroundColor = color;
+
+        }
+        
+        function updateTextUI(index) {
+            const activeDiv = colorDivs[index];
+            const color = chroma(activeDiv.style.backgroundColor);
+            const textHex = activeDiv.querySelector('h2');
+            const icons = activeDiv.querySelectorAll('.controls button');
+            textHex.innerText = color.hex();
+
+            //Contrast
+            checkTextContrast(color, textHex);
+            for(icon of icons) {
+                checkTextContrast(color, icon);
+            }
 
         }
 
