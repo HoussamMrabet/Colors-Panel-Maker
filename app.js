@@ -4,6 +4,9 @@
     const sliders = document.querySelectorAll('input[type="range"]');
     const currentHexes = document.querySelectorAll('.color h2');
     const popup = document.querySelector('.copy-container');
+    const adjustButton = document.querySelectorAll('.adjust');
+    const adjustClose = document.querySelectorAll('.close-adjustment');
+    const sliderContainers = document.querySelectorAll('.sliders');
     let initialColors;
 
 //Events Listeners
@@ -28,6 +31,19 @@
         popup.classList.remove('active');
         popupBox.classList.remove('active');
     });
+
+    adjustButton.forEach((adjust, index) => {
+        adjust.addEventListener('click', () => {
+            sliderContainers[index].classList.toggle('active');
+        });
+    });
+    adjustClose.forEach((closer, index) => {
+        closer.addEventListener('click', () => {
+            sliderContainers[index].classList.remove('active');
+        });
+    });
+
+
 
 //Functions
 
