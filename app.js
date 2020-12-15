@@ -110,6 +110,9 @@
             
             colorDivs[index].style.backgroundColor = color;
 
+            //Update Inputs
+            colorizeSliders(color, hue, brightness, saturation);
+
         }
         
         function updateTextUI(index) {
