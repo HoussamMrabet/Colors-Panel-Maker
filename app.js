@@ -300,6 +300,21 @@
             panelBtn.classList.add(panelObj.nbr);
             panelBtn.innerText = 'Select';
 
+            //Button event
+            panelBtn.addEventListener('click', e => {
+                closeLibrary();
+                const panelIndex = e.target.classList[1];
+                initialColors = [];
+                savedPanel[panelIndex].colors.forEach((color, index) => {
+                    initialColors.push(color);
+                    colorDivs[index].style.backgroundColor = color;
+                    const text = colorDivs[index].children[0];
+                    checkTextContrast(color, text);
+                    updateTextUI(index);
+                });
+                libraryInputUpdate();
+            })
+
             //Append to the Library
             panel.appendChild(title);
             panel.appendChild(preview);
