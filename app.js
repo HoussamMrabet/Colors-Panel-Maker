@@ -48,6 +48,12 @@
         });
     });
 
+    lockButton.forEach((button, index) => {
+        button.addEventListener("click", e => {
+          lockLayer(e, index);
+        });
+    });
+      
 //Functions
 
     //Color Generator
@@ -72,7 +78,13 @@
                 const hexText = div.children[0];
                 const randomColor = generateHex();
 
-                initialColors.push(chroma(randomColor).hex());
+                //Keeping the preview value while it is locked
+                if (div.classList.contains('locked')) {
+                    initialColors.push(hexText.innerText);
+                    return;
+                } else {
+                    initialColors.push(chroma(randomColor).hex());
+                }
 
                 //Add the color to the background
                 div.style.backgroundColor = randomColor;
@@ -206,6 +218,18 @@
             popup.classList.add('active');
             popupBox.classList.add('active');
 
+        }
+        
+        function lockLayer(e, index) {
+            const lockSVG = e.target.children[0];
+            const activeBg = colorDivs[index];
+            activeBg.classList.toggle("locked");
+        
+            if (lockSVG.classList.contains("fa-lock-open")) {
+                e.target.innerHTML = '<i class="fas fa-lock"></i>';
+            } else {
+                e.target.innerHTML = '<i class="fas fa-lock-open"></i>';
+            }
         }
         
         randomColors();

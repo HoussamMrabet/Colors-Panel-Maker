@@ -56,11 +56,13 @@ svg {
   border-top-left-radius: 1rem;
   transform: translateY(100px);
   transition: all 0.5s ease-in-out;
+  pointer-events: none;
 }
 
 .sliders.active {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: all;
 }
 
 .sliders button {
