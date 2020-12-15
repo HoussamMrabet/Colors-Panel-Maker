@@ -10,6 +10,9 @@
     const sliderContainers = document.querySelectorAll('.sliders');
     let initialColors;
 
+    //Local Storage
+    let savedPanel = [];
+
 //Events Listeners
 
     generateBtn.addEventListener('click', randomColors);
@@ -232,5 +235,28 @@
             }
         }
         
+        //Implement Save to panel and Local Storage Stuff
+        const saveBtn = document.querySelector('.save');
+        const submitSave = document.querySelector('.submit-save');
+        const closeSave = document.querySelector('.close-save');
+        const saveContainer = document.querySelector('.save-container');
+        const saveInput = document.querySelector('.save-container input')
+        
+        //Local Storage Event Listeners
+        saveBtn.addEventListener('click', openPanel);
+        closeSave.addEventListener('click', closePanel);
+                
+        function openPanel(e) {
+            const popup = saveContainer.children[0];
+            saveContainer.classList.add('active');
+            popup.classList.add('active');
+        }
+        
+        function closePanel(e) {
+            const popup = saveContainer.children[0];
+            saveContainer.classList.remove('active');
+            popup.classList.remove('active');
+        }
+
         randomColors();
     
