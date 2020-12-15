@@ -245,17 +245,30 @@
         //Local Storage Event Listeners
         saveBtn.addEventListener('click', openPanel);
         closeSave.addEventListener('click', closePanel);
+        submitSave.addEventListener("click", savePanel);
+
                 
         function openPanel(e) {
             const popup = saveContainer.children[0];
             saveContainer.classList.add('active');
             popup.classList.add('active');
+        }
+        
+        
+        function closePanel(e) {
+            const popup = saveContainer.children[0];
+            saveContainer.classList.remove('active');
+            popup.classList.remove('active');
+        }   
+        
+        function savePanel(e) {
+            saveContainer.classList.remove('active');
+            popup.classList.remove('active');
             const name = saveInput.value;
             const colors = [];
             currentHexes.forEach(hex => {
                 colors.push(hex.innerText);
             });
-
             //Generate Object
             let panelNbr = savedPanel.length;
             const panelObj = { name, colors, nbr: panelNbr };
@@ -265,13 +278,6 @@
             savetoLocal(panelObj);
             saveInput.value = "";
 
-        }
-        
-        
-        function closePanel(e) {
-            const popup = saveContainer.children[0];
-            saveContainer.classList.remove('active');
-            popup.classList.remove('active');
         }
         
         function savetoLocal(panelObj) {
