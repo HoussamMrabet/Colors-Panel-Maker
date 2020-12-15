@@ -250,13 +250,41 @@
             const popup = saveContainer.children[0];
             saveContainer.classList.add('active');
             popup.classList.add('active');
+            const name = saveInput.value;
+            const colors = [];
+            currentHexes.forEach(hex => {
+                colors.push(hex.innerText);
+            });
+
+            //Generate Object
+            let panelNbr = savedPanel.length;
+            const panelObj = { name, colors, nbr: panelNbr };
+            savedPanel.push(panelObj);
+
+            //Save to Local Storage
+            savetoLocal(panelObj);
+            saveInput.value = "";
+
         }
+        
         
         function closePanel(e) {
             const popup = saveContainer.children[0];
             saveContainer.classList.remove('active');
             popup.classList.remove('active');
         }
+        
+        function savetoLocal(panelObj) {
+            let localPanel;
+            if (localStorage.getItem('panel') === null) {
+                localPanel = [];
+            } else {
+                localPanel = JSON.parse(localStorage.getItem('panel'));
+            }
+            localPanel.push(panelObj);
+            localStorage.setItem('panel', JSON.stringify(localPanel));
+        }
+            
 
         randomColors();
     
