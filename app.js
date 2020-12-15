@@ -251,7 +251,6 @@
         submitSave.addEventListener("click", savePanel);
         libraryBtn.addEventListener('click', openLibrary);
         closeLibraryBtn.addEventListener('click', closeLibrary);
-
                 
         function openPanel(e) {
             const popup = saveContainer.children[0];
@@ -274,8 +273,17 @@
             currentHexes.forEach(hex => {
                 colors.push(hex.innerText);
             });
+
             //Generate Object
-            let panelNbr = savedPanel.length;
+            let panelNbr;
+            const panelObjects = JSON.parse(localStorage.getItem('panel'));
+
+            if (panelObjects) {
+                panelNbr = panelObjects.length;
+            } else {
+                panelNbr = savedPanel.length;
+            }
+
             const panelObj = { name, colors, nbr: panelNbr };
             savedPanel.push(panelObj);
 
@@ -312,8 +320,8 @@
                     checkTextContrast(color, text);
                     updateTextUI(index);
                 });
-                libraryInputUpdate();
-            })
+                resetInputs();
+            });
 
             //Append to the Library
             panel.appendChild(title);
@@ -345,7 +353,63 @@
             libraryContainer.classList.remove('active');
             popup.classList.remove('active');
         }
+        
+        function getLocal() {
             
+            if (localStorage.getItem('panel') === null) {
 
+                localPanel = [];
+
+            } else {
+
+                const panelObjects = JSON.parse(localStorage.getItem('panel'));
+                panelObjects.forEach(panelObj => {
+                    
+                    savedPanel = [...panelObjects];
+                    const panel = document.createElement('div');
+                    panel.classList.add('custom-panel');
+                    const title = document.createElement('h4');
+                    title.innerText = panelObj.name;
+                    const preview = document.createElement('div');
+                    preview.classList.add('small-preview');
+
+                    panelObj.colors.forEach(smallColor => {
+
+                        const smallDiv = document.createElement('div');
+                        smallDiv.style.backgroundColor = smallColor;
+                        preview.appendChild(smallDiv);
+                            
+                    });
+
+                    const panelBtn = document.createElement('button');
+                    panelBtn.classList.add('pick-panel-btn');
+                    panelBtn.classList.add(panelObj.nbr);
+                    panelBtn.innerText = 'Select';
+
+                    //Button event
+                    panelBtn.addEventListener('click', e => {
+                        closeLibrary();
+                        const panelIndex = e.target.classList[1];
+                        initialColors = [];
+                        panelObjects[panelIndex].colors.forEach((color, index) => {
+                            initialColors.push(color);
+                            colorDivs[index].style.backgroundColor = color;
+                            const text = colorDivs[index].children[0];
+                            checkTextContrast(color, text);
+                            updateTextUI(index);
+                        });
+                        resetInputs();
+                    });
+
+                    //Append to the Library
+                    panel.appendChild(title);
+                    panel.appendChild(preview);
+                    panel.appendChild(panelBtn);
+                    libraryContainer.children[0].appendChild(panel);
+
+                });
+            }   
+        }
+            
+        getLocal();
         randomColors();
-    
