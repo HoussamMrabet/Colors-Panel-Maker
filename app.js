@@ -5,11 +5,15 @@
     const currentHexes = document.querySelectorAll('.color h2');
     const popup = document.querySelector('.copy-container');
     const adjustButton = document.querySelectorAll('.adjust');
+    const lockButton = document.querySelectorAll('.lock');
     const adjustClose = document.querySelectorAll('.close-adjustment');
     const sliderContainers = document.querySelectorAll('.sliders');
     let initialColors;
 
 //Events Listeners
+
+    generateBtn.addEventListener('click', randomColors);
+
     sliders.forEach(slider => {
         slider.addEventListener('input', hslControls);
     });
@@ -37,13 +41,12 @@
             sliderContainers[index].classList.toggle('active');
         });
     });
+
     adjustClose.forEach((closer, index) => {
         closer.addEventListener('click', () => {
             sliderContainers[index].classList.remove('active');
         });
     });
-
-
 
 //Functions
 
@@ -75,8 +78,9 @@
                 div.style.backgroundColor = randomColor;
                 hexText.innerText = randomColor;
 
-                //Contrast Check
+                //Check Text Contrast
                 checkTextContrast(randomColor, hexText);
+
 
                 //Initial Colorize Sliders
                 const color = chroma(randomColor);
@@ -91,6 +95,13 @@
 
             //reset Inputs
             resetInputs();
+
+            //Check Buttons Contrast
+            adjustButton.forEach((button,index) => {
+                checkTextContrast(initialColors[index], button);
+                checkTextContrast(initialColors[index], lockButton[index]);
+            });
+
         } 
         
         function checkTextContrast(color, text) {
@@ -196,6 +207,6 @@
             popupBox.classList.add('active');
 
         }
-
+        
         randomColors();
     

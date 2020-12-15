@@ -61,7 +61,6 @@ svg {
 .sliders.active {
   opacity: 1;
   transform: translateY(0);
-  /* pointer-events: none; */
 }
 
 .sliders button {
