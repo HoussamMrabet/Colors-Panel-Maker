@@ -240,12 +240,17 @@
         const submitSave = document.querySelector('.submit-save');
         const closeSave = document.querySelector('.close-save');
         const saveContainer = document.querySelector('.save-container');
-        const saveInput = document.querySelector('.save-container input')
+        const saveInput = document.querySelector('.save-container input');
+        const libraryContainer = document.querySelector('.library-container');
+        const libraryBtn = document.querySelector('.library');
+        const closeLibraryBtn = document.querySelector('.close-library');
         
         //Local Storage Event Listeners
         saveBtn.addEventListener('click', openPanel);
         closeSave.addEventListener('click', closePanel);
         submitSave.addEventListener("click", savePanel);
+        libraryBtn.addEventListener('click', openLibrary);
+        closeLibraryBtn.addEventListener('click', closeLibrary);
 
                 
         function openPanel(e) {
@@ -278,6 +283,29 @@
             savetoLocal(panelObj);
             saveInput.value = "";
 
+            //Generate the panel for Library
+            const panel = document.createElement('div');
+            panel.classList.add('custom-panel');
+            const title = document.createElement('h4');
+            title.innerText = panelObj.name;
+            const preview = document.createElement('div');
+            preview.classList.add('small-preview');
+            panelObj.colors.forEach(smallColor => {
+                const smallDiv = document.createElement('div');
+                smallDiv.style.backgroundColor = smallColor;
+                preview.appendChild(smallDiv);
+            });
+            const panelBtn = document.createElement('button');
+            panelBtn.classList.add('pick-panel-btn');
+            panelBtn.classList.add(panelObj.nbr);
+            panelBtn.innerText = 'Select';
+
+            //Append to the Library
+            panel.appendChild(title);
+            panel.appendChild(preview);
+            panel.appendChild(panelBtn);
+            libraryContainer.children[0].appendChild(panel);
+
         }
         
         function savetoLocal(panelObj) {
@@ -289,6 +317,18 @@
             }
             localPanel.push(panelObj);
             localStorage.setItem('panel', JSON.stringify(localPanel));
+        }
+        
+        function openLibrary(){
+            const popup = libraryContainer.children[0];
+            libraryContainer.classList.add('active');
+            popup.classList.add('active');
+        }
+            
+        function closeLibrary(){
+            const popup = libraryContainer.children[0];
+            libraryContainer.classList.remove('active');
+            popup.classList.remove('active');
         }
             
 
